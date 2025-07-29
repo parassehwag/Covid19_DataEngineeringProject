@@ -18,6 +18,29 @@
 		"sourceLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().baseUrl}"
+		},
+		"Trigger_everyOtherDay_Ingest_properties_copyData_parameters_p_array": {
+			"type": "array",
+			"defaultValue": [
+				{
+					"baseUrl": "https://catalog.ourworldindata.org/",
+					"relativeUrl": "garden/covid/latest/compact/compact.csv",
+					"folder": "covid19",
+					"file": "covid"
+				},
+				{
+					"baseUrl": "https://www.gstatic.com/",
+					"relativeUrl": "covid19/mobility/Global_Mobility_Report.csv",
+					"folder": "mobilityData",
+					"file": "mobility"
+				},
+				{
+					"baseUrl": "https://pandemicdatalake.blob.core.windows.net/",
+					"relativeUrl": "public/curated/covid-19/covid_policy_tracker/latest/covid_policy_tracker.csv",
+					"folder": "policyData",
+					"file": "policy"
+				}
+			]
 		}
 	},
 	"variables": {
@@ -280,6 +303,39 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sourceDataset')]",
 				"[concat(variables('factoryId'), '/datasets/rawData')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger_everyOtherDay_Ingest')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "copyData",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"p_array": "[parameters('Trigger_everyOtherDay_Ingest_properties_copyData_parameters_p_array')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 48,
+						"startTime": "2025-07-29T18:30:00",
+						"endTime": "2025-08-02T21:00:00",
+						"timeZone": "India Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/copyData')]"
 			]
 		}
 	]

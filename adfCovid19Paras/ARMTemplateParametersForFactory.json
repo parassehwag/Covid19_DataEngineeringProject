@@ -13,6 +13,28 @@
 		},
 		"sourceLinkedService_properties_typeProperties_url": {
 			"value": "@{linkedService().baseUrl}"
+		},
+		"Trigger_everyOtherDay_Ingest_properties_copyData_parameters_p_array": {
+			"value": [
+				{
+					"baseUrl": "https://catalog.ourworldindata.org/",
+					"relativeUrl": "garden/covid/latest/compact/compact.csv",
+					"folder": "covid19",
+					"file": "covid"
+				},
+				{
+					"baseUrl": "https://www.gstatic.com/",
+					"relativeUrl": "covid19/mobility/Global_Mobility_Report.csv",
+					"folder": "mobilityData",
+					"file": "mobility"
+				},
+				{
+					"baseUrl": "https://pandemicdatalake.blob.core.windows.net/",
+					"relativeUrl": "public/curated/covid-19/covid_policy_tracker/latest/covid_policy_tracker.csv",
+					"folder": "policyData",
+					"file": "policy"
+				}
+			]
 		}
 	}
 }
