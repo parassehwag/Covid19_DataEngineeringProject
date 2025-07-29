@@ -1,0 +1,12 @@
+{
+	"name": "CovidSourceLinkedService",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://catalog.ourworldindata.org/garden/covid/latest/compact/compact.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
