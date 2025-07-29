@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfCovid19Paras"
+		},
+		"linkedServiceADLS_accountKey": {
+			"value": ""
+		},
+		"linkedServiceADLS_properties_typeProperties_url": {
+			"value": "https://covid19dlparas.dfs.core.windows.net/"
+		},
+		"sourceLinkedService_properties_typeProperties_url": {
+			"value": "@{linkedService().baseUrl}"
+		}
+	}
+}
