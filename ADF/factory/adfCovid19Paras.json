@@ -1,0 +1,9 @@
+{
+	"name": "adfCovid19Paras",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d3c6daa8-2a83-45fb-a30e-244745c42b76",
+		"tenantId": "6d6081d6-47d4-477a-baed-a84ccc65f015"
+	}
+}
