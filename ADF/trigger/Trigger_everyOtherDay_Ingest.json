@@ -2,7 +2,7 @@
 	"name": "Trigger_everyOtherDay_Ingest",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
