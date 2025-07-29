@@ -1,0 +1,125 @@
+{
+	"name": "copyData",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEachSource",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.p_array",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "copyDynamicIngest",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "sourceDataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeUrl": {
+											"value": "@item().relativeUrl",
+											"type": "Expression"
+										},
+										"baseUrl": {
+											"value": "@item().baseUrl",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "rawData",
+									"type": "DatasetReference",
+									"parameters": {
+										"folder": {
+											"value": "@item().Folder",
+											"type": "Expression"
+										},
+										"file": {
+											"value": "@item().File",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"p_array": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"baseUrl": "https://catalog.ourworldindata.org/",
+						"relativeUrl": "garden/covid/latest/compact/compact.csv",
+						"folder": "covid19",
+						"file": "covid"
+					},
+					{
+						"baseUrl": "https://www.gstatic.com/",
+						"relativeUrl": "covid19/mobility/Global_Mobility_Report.csv",
+						"folder": "mobilityData",
+						"file": "mobility"
+					},
+					{
+						"baseUrl": "https://pandemicdatalake.blob.core.windows.net/",
+						"relativeUrl": "public/curated/covid-19/covid_policy_tracker/latest/covid_policy_tracker.csv",
+						"folder": "policyData",
+						"file": "policy"
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}
