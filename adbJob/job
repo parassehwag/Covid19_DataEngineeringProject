@@ -1,0 +1,213 @@
+{
+  "name": "covid19",
+  "email_notifications": {
+    "no_alert_for_skipped_runs": false
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "rawToBronze_covid",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/rawToBronze/covid",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "rawTobronze_mobility",
+      "depends_on": [
+        {
+          "task_key": "rawToBronze_covid"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/rawToBronze/mobility",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "rawTobronze_policy",
+      "depends_on": [
+        {
+          "task_key": "rawTobronze_mobility"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/rawToBronze/policy",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "bronzeToSilver",
+      "depends_on": [
+        {
+          "task_key": "rawTobronze_policy"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/bronzeToSilver/silver_combined_data",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverToGold_covid_monthly_summary",
+      "depends_on": [
+        {
+          "task_key": "bronzeToSilver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/covid_monthly_summary",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverToGold_mobility_monthly_summary",
+      "depends_on": [
+        {
+          "task_key": "bronzeToSilver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/mobility_montlhy_summary",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverToGold_mobility_effect_on_cases",
+      "depends_on": [
+        {
+          "task_key": "silverToGold_covid_monthly_summary"
+        },
+        {
+          "task_key": "silverToGold_mobility_monthly_summary"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/mobility_effects_on_cases",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverToGold_policy_monthly_summary",
+      "depends_on": [
+        {
+          "task_key": "bronzeToSilver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/policy_monthly_summary",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverTogold_policy_effect_on_cases",
+      "depends_on": [
+        {
+          "task_key": "silverToGold_policy_monthly_summary"
+        },
+        {
+          "task_key": "silverToGold_covid_monthly_summary"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/policy_effect_on_cases",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "silverToGold_combined_policy_mobility_effects",
+      "depends_on": [
+        {
+          "task_key": "silverTogold_policy_effect_on_cases"
+        },
+        {
+          "task_key": "silverToGold_mobility_effect_on_cases"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/parassehwag@outlook.com/Covid19_DataEngineeringProject/ADB/silverToGold/combined_policy_mobility_effects",
+        "source": "WORKSPACE"
+      },
+      "job_cluster_key": "Job_cluster",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "Job_cluster",
+      "new_cluster": {
+        "cluster_name": "",
+        "spark_version": "16.4.x-scala2.12",
+        "azure_attributes": {
+          "first_on_demand": 1,
+          "availability": "SPOT_WITH_FALLBACK_AZURE",
+          "spot_bid_max_price": -1
+        },
+        "node_type_id": "Standard_D4ds_v5",
+        "spark_env_vars": {
+          "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+        },
+        "enable_elastic_disk": true,
+        "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+        "runtime_engine": "PHOTON",
+        "num_workers": 8
+      }
+    }
+  ],
+  "queue": {
+    "enabled": true
+  },
+  "run_as": {
+    "user_name": "parassehwag@outlook.com"
+  }
+}
